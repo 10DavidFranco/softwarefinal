@@ -22,9 +22,13 @@ def deleteTask():
 def print_admin_view():
     #ROOT ADMIN NODE
     admin = Tk()
+
+    admin.title("TaskTrek - Admin View")  # Set window title
+    admin.geometry("800x600")  # Set fixed window size
+    admin.config(bg="orange")  # Set background color
     
     #LABELLING
-    admin_label = Label(admin, text = "WELCOME ADMIN", font=(32))
+    admin_label = Label(admin, text = "WELCOME ADMIN", font=("fixedsys", 32), bg = "orange")
     
     #ASSIGN TASK BUTTON
     assignButton = Button(admin, text = "Assign New Task", command = assignTask)
@@ -38,7 +42,7 @@ def print_admin_view():
 
     for employee in employee_array:
 
-        employee_label = Label(admin, text="Employee Name", font=(20))
+        employee_label = Label(admin, text="Employee Name", font=("fixedsys", 20), bg = "orange")
         employee_label.grid(row = employee + 4, column = 2)
 
         viewAssignButton = Button(admin, text = "View Existing Tasks", command=viewTasks)
