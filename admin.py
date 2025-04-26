@@ -16,6 +16,23 @@ cursor = dataConnector.cursor()
 
 #ADMIN CAN FIND EMPLOYEE IN DATABASE 
 
+def editSubmit(new_description, new_due_date, task_id):
+    print("hi")
+    print(task_id)
+
+    cursor.execute("UPDATE task SET (description, due_date) = (?,?) WHERE task_id = ?",(
+        new_description.get(),
+        new_due_date.get(),
+        task_id
+    )
+    )
+
+    dataConnector.commit()
+
+
+    new_description.delete(0,END)
+    new_due_date.delete(0,END)
+
 def deleteTask(task_id, employee_id):
     # We need to pass in the taskID and the employee ID
     print("deleting")
@@ -61,8 +78,26 @@ def deleteTask(task_id, employee_id):
     cursor.execute("UPDATE employee SET tasks = ? WHERE id = ?",[task_entry, employee_id])
     dataConnector.commit()
 
-def editTask():
+def editTask(task_id):
     print("Editing!!!")
+    edit = Tk()
+    edit.title("TaskTrek - Edit View")  # Set window title
+    edit.geometry("300x200")  # Set fixed window size
+    edit.config(bg="orange")  # Set background color
+
+    edit_title = Label(edit, text="Editing Task...",font=("fixedsys", 32), bg = "orange")
+    edit_label = Label(edit, text="Please enter a description for the task", bg="orange")
+    new_description = Entry(edit, width=30)
+    date_edit_label = Label(edit, text="Please enter a due date for the task", bg="orange")
+    date_new_description = Entry(edit, width=30)
+    submit_button = Button(edit, text="Submit", command = lambda: editSubmit(new_description, date_new_description, task_id))
+
+    edit_title.grid(row=0, column = 0)
+    edit_label.grid(row=1, column = 0)
+    new_description.grid(row=2, column = 0)
+    date_edit_label.grid(row=3, column = 0)
+    date_new_description.grid(row=4, column = 0)
+    submit_button.grid(row = 5, column = 0)
 
 def viewTasks(employee):
     view = Tk()
@@ -108,7 +143,7 @@ def viewTasks(employee):
             print(employee[0])
             task_label = Label(view, text=task[1], font=("fixedsys", 20), bg = "orange")
             delete = Button(view, text="Delete Task", command = lambda task=task: deleteTask(task[0], employee[0]))
-            edit = Button(view, text="Edit Task")
+            edit = Button(view, text="Edit Task", command = lambda task=task: editTask(task[0]))
             task_label.grid(row = 4 + row_count, column = 1)
             delete.grid(row = 4 + row_count, column = 2)
             edit.grid(row = 4 + row_count, column= 3)
