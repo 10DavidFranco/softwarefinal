@@ -1,59 +1,3 @@
-# from tkinter import *
-# import sqlite3
-# dataConnector = sqlite3.connect('employeeData.db')
-
-# cursor = dataConnector.cursor() 
-
-# def on_date():
-#     print("date added")
-
-# def on_description():
-#     print("description added")
-
-# def on_employee():
-#     print("employees added")
-
-# def assignTask():
-#     # We need to create a new task and pass the id into the functions...
-#     #Create the new task
-#     #And then... in functions, once the submit button is clicked for each field, find the task and set the information
-#     print("Hello!")
-#     assign = Tk()
-#     assign.title("TaskTrek - Task Assignment View")  # Set window title
-#     assign.geometry("400x300")  # Set fixed window size
-#     assign.config(bg="orange")  # Set background color
-#     #Labels
-#     title = Label(assign, text= "ASSIGNMENT WINDOW", font = ("fixedsys", 32), bg = "orange")
-#     task_due_date = Label(assign, text = "Due Date:", font=("fixedsys", 20), bg="orange")
-#     task_due_date_button = Button(assign, text="Submit", command= on_date)
-#     task_description = Label(assign, text = "Brief Description:", font=("fixedsys", 20), bg="orange")
-#     task_description_button = Button(assign, text= "Submit", command= on_description)
-#     task_employees = Label(assign, text = "Employees:", font=("fixedsys", 20), bg="orange")
-#     task_employees_button = Button(assign, text="Submit", command= on_employee)
-
-#     #Entry fields
-#     task_name_entry = Entry(assign)
-
-#     task_due_date_entry = Entry(assign)
-
-#     task_description_entry = Entry(assign)
-
-    
-#     #Gridding
-#     title.grid(row = 0, column = 0)
-
-    
-
-#     task_due_date.grid(row = 1, column = 0)
-#     task_due_date_entry.grid(row = 2, column = 0)
-#     task_due_date_button.grid(row = 3, column = 0)
-#     task_description.grid(row = 4, column = 0)
-#     task_description_button.grid(row = 5, column = 0)
-#     task_description_entry.grid(row = 6, column = 0)
-
-#     task_employees.grid(row = 7, column = 0)
-#     task_employees_button.grid(row = 8, column = 0)
-#     #See if radio buttons allow multiple select
 from tkinter import *
 import sqlite3
 
@@ -149,6 +93,14 @@ def assignTask():
     assign = Tk()
     assign.title("TaskTrek - Task Assignment View")  # Set window title
     assign.geometry("400x300")  # Set fixed window size
+    # Centering the window
+    screen_width = assign.winfo_screenwidth()
+    screen_height = assign.winfo_screenheight()
+    window_width = 400
+    window_height = 300
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    assign.geometry(f"{window_width}x{window_height}+{x}+{y}")
     assign.config(bg="orange")  # Set background color
     ##### Create widgets
     description = Entry(assign, width = 30)

@@ -17,13 +17,11 @@ cursor = dataConnector.cursor()
 #EVEnTUALLY: REFER TO DATABASE TO FIND ADMIN STATUS UPON LOGIN
 
 
-
-
 ##################(This is for setting up the window to open in the center of a users window)####################
 #Setting a fixed size of the window (width x height)
 #kind of a paranamic mode
-width = 700
-height = 300
+width = 900
+height = 700
 # Getting the screen computers width and height (this would be the users own computer dimensions)
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
@@ -37,15 +35,8 @@ root.geometry(f"{width}x{height}+{x}+{y}")
 
 
 # Change background color of the root window
-root.config(bg="orange")  # Set the background color to light gray
+root.config(bg="orange")  # Set the background color
 ##################################################################################################################
-
-
-
-#admin = False
-
-
-
 
 
 ############################################################ Methods ###################################
@@ -104,12 +95,7 @@ def on_submit():
         #Find employee id
     
     #pass in ID as parameter for user view so tasks can be generated
-   
-    
-   
-
 ########################################################################################################
-
 
 
 
@@ -127,7 +113,7 @@ item.insert(0,"Enter your employeeID")
 
 
 
-######################## Define FONTS ################
+######################## FONTS/TEXT CONTENT ################
 bigFont = Font(
     family="fixedsys",
     size=90,
@@ -135,46 +121,35 @@ bigFont = Font(
     slant="italic"
     # underline=0,
     # overstrike=0
-
 )
-######################################################
-
-
-################################################ TEXT CONTENT ##########################################
 # Create the title label
 #the label has its own bg as it
 title_label = Label(root, text="TaskTrek", font=bigFont, bg="orange")
-########################################################################################################
+###################################################################
 
 
 
-###################################################### GRIDDING ########################################
-# Grid the title label at row 0, column 0
-# 'nsew' means North, South, East, West (stretches)
-title_label.grid(row=0, column=0, sticky="nsew")
-# Make the row at index 0 expand vertically, keeping it at the top
-root.grid_rowconfigure(0, weight=0)  # row 0 does not expand vertically
-root.grid_rowconfigure(1, weight=0)  # row 1 can expand vertically if needed
-# Make the columns expand horizontally to center the label
-#root.grid_columnconfigure(0, weight=1)  # column 0 expands horizontally
+###################################################### GRIDDING/FRAMEING ########################################
+# Grid config to allow stretching
+root.grid_columnconfigure(0, weight=1)
+root.grid_columnconfigure(1, weight=1)
+# Title label setup
+title_label = Label(root, text="TaskTrek", font=bigFont, bg="orange")
+# Span both columns and center
+title_label.grid(row=0, column=0, columnspan=2, pady=20, sticky="nsew")
 
 
-
-
-item.grid(row = 1, column = 0)
-Submitbutton.grid(row = 1, column = 1)
-
-#item.grid(row=2,column=0)
-#Adminbutton.grid(row=4, column=1)
+input_frame = Frame(root, bg="orange")
+input_frame.grid(row=1, column=0, columnspan=2, pady=20)
+# Center it
+root.grid_columnconfigure(0, weight=1)
+root.grid_columnconfigure(1, weight=1)
+item = Entry(input_frame)
+item.insert(0, "Enter your employeeID")
+item.pack(side="left", padx=5)
+Submitbutton = Button(input_frame, text="Submit", command=on_submit)
+Submitbutton.pack(side="left", padx=5)
 
 ############################################################################################################
-
-
-
-################################################### FUNCTIONS ################################################
-
-###############################################################################################################
-
-
 
 root.mainloop()

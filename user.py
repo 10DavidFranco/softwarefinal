@@ -1,31 +1,27 @@
 from tkinter import *
 import sqlite3
-# List to keep track of tasks (temporary, not saved to file or DB)
 
-
+# Connect to the database
 dataConnector = sqlite3.connect('employeeData.db')
-    
 cursor = dataConnector.cursor()
-
 
 def onSelect(arg, id):
     sql = "UPDATE task SET status = ? WHERE task_id = ?"
     my_status = arg
     my_task_id = id
-
     cursor.execute(sql, [my_status, my_task_id])
     dataConnector.commit()
-    #print(arg)
 
-def createDropDown(arg1, arg2, arg3, task_id):
+def createDropDown(current_status, parent_frame, row_num, task_id, task_frame):
     status_var = StringVar()
-    status_var.set(arg1) #needs task[2]
-    # Dropdown menu to change task status
-    print(status_var)
-    print(status_var.get())
-    dropdown = OptionMenu(arg2, status_var, "Incomplete", "Complete", command=lambda value: onSelect(value, task_id)) #needs user
-    dropdown.grid(row = 4 + arg3, column = 2) #needs rowcount
+    status_var.set(current_status)
 
+    def on_status_change(new_status):
+        onSelect(new_status, task_id)
+        task_frame.config(bg="green" if new_status == "Complete" else "red")
+
+    dropdown = OptionMenu(parent_frame, status_var, "Incomplete", "Complete", command=on_status_change)
+    dropdown.pack(side=RIGHT, padx=10)
 
 # FUNCTION TO DISPLAY THE USER VIEW
 def print_user_view(employee):
@@ -35,16 +31,23 @@ def print_user_view(employee):
     # Create a new window for the user view
     user = Tk()
     user.title("TaskTrek - User View")  # Set window title
-    user.geometry("800x600")  # Set fixed window size
+    user.geometry("1000x600")  # Set fixed window size
+    # Centering the window
+    screen_width = user.winfo_screenwidth()
+    screen_height = user.winfo_screenheight()
+    window_width = 1000
+    window_height = 600
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    user.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
     user.config(bg="orange")  # Set background color
     user_tasks = []
-    task_keys = employee[3]
-    #print(task_array)
+    task_keys = employee[3]  # Assuming employee[3] is a string of task IDs (comma-separated)
     tasks = task_keys.split(",")
     print(tasks)
 
-    
-
+    # Fetch task details for each task ID
     for a_task in tasks:
         sql = "SELECT * FROM task WHERE task_id = ?"
         my_id = int(a_task)
@@ -52,72 +55,33 @@ def print_user_view(employee):
         my_task = cursor.fetchone()
         user_tasks.append(my_task)
 
-
-
     row_count = 0
     
-    ########################################## TASK LIST FRAME #####################################
-    # Frame to hold and display the list of tasks dynamically
-    #task_list_frame = Frame(user, bg="orange")
-    #task_list_frame.grid(row=3, column=0, columnspan=3, pady=20)
-
-    
-
+    # Display the list of tasks dynamically
     for task in user_tasks:
-        print(task)
-        #print(employee_array[employee])
-        task_label = Label(user, text=task[1] + " " + task[3], font=("fixedsys", 20), bg = "orange")
-        task_label.grid(row = 4 + row_count, column = 1)
-        
-        createDropDown(task[2], user, row_count, task[0])
-        #dropdown.config(font=("fixedsys", 10))
-        #dropdown.grid(row=4 + row_count, column=2)
+        task_frame = Frame(user, bg="green" if task[2] == "Complete" else "red", padx=10, pady=10, bd=2, relief="groove")
+        task_frame.grid(row=4 + row_count, column=1, pady=5, sticky="")
+
+        # Task label inside the frame
+        task_label = Label(task_frame, text=task[1] + " | Due: " + task[3], font=("fixedsys", 16), bg="white", anchor="w", width=40)
+        task_label.pack(side=LEFT, fill=BOTH, expand=True)
+
+        # Create dropdown for task status change
+        createDropDown(task[2], task_frame, row_count, task[0], task_frame)
 
         row_count += 1
 
-
-    #dataConnector = sqlite3.connect('employeeData.db')
-
-    #cursor = dataConnector.cursor() 
-
-    #sql = "SELECT * FROM employee WHERE id = ?"
-    #my_id = int(id)
-    #cursor.execute(sql, [my_id])
     ########################################## PAGE TITLE ##########################################
-    # Label at the top of the page to indicate we're in User View
-    user_label = Label(user, text="TaskTrek - User View", font=("fixedsys", 32), bg="orange")
-    user_label.grid(row=0, column=0, columnspan=3, pady=20)
-    ###############################################################################################
+    # Configure grid columns to expand evenly
+    user.grid_columnconfigure(0, weight=1)
+    user.grid_columnconfigure(1, weight=1)
+    user.grid_columnconfigure(2, weight=1)
 
-    ########################################## TASK ENTRY SECTION ##################################
+    # Fetch the employee's name from the database (assuming employee[0] is employee_id)
+    employee_id = employee[0]  # employee[0] should be the ID
+    cursor.execute("SELECT name FROM employee WHERE id = ?", (employee_id,))
+    employee_name = cursor.fetchone()[0]  # Fetch employee name
 
-    ###############################################################################################
-
-
-
-    ###############################################################################################
-
-
-    ########################################## FUNCTION TO ADD TASK ###############################
-    #def add_task():
-        # Get task text from the entry box
-        #task_text = task_entry.get().strip()
-
-        # Only add task if input is not empty
-        #if task_text:
-            # Create a StringVar to track the status of this task
-            #status_var = StringVar()
-            #status_var.set("Incomplete")  # Default status
-
-            # Label to display the task text
-            #task_display = Label(task_list_frame, text=task_text, font=("fixedsys", 12), bg="orange")
-            #task_display.grid(row=len(user_tasks), column=0, padx=5, pady=5, sticky="w")
-
-          
-
-            # Store task and status in list for reference
-            #user_tasks.append((task_text, status_var))
-
-            # Clear the entry box after task is added
-            #task_entry.delete(0, END)
-    ###############################################################################################
+    # Centered label with employee's name in the title
+    user_label = Label(user, text=f"TaskTrek - Welcome, {employee_name}!", font=("fixedsys", 32), bg="orange")
+    user_label.grid(row=0, column=0, columnspan=3, pady=20, sticky="nsew")

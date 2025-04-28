@@ -103,6 +103,14 @@ def viewTasks(employee):
     view = Tk()
     view.title("TaskTrek - Admin View")  # Set window title
     view.geometry("500x300")  # Set fixed window size
+    # Centering the window
+    screen_width = view.winfo_screenwidth()
+    screen_height = view.winfo_screenheight()
+    window_width = 600
+    window_height = 300
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    view.geometry(f"{window_width}x{window_height}+{x}+{y}")
     view.config(bg="orange")  # Set background color
     #print(employee)
     user_tasks = []
@@ -163,7 +171,15 @@ def print_admin_view():
     admin = Tk()
 
     admin.title("TaskTrek - Admin View")  # Set window title
-    admin.geometry("800x600")  # Set fixed window size
+    admin.geometry("1000x600")  # Set fixed window size
+    # Centering the window
+    screen_width = admin.winfo_screenwidth()
+    screen_height = admin.winfo_screenheight()
+    window_width = 1000
+    window_height = 600
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    admin.geometry(f"{window_width}x{window_height}+{x}+{y}")
     admin.config(bg="orange")  # Set background color
     
     
@@ -173,15 +189,21 @@ def print_admin_view():
     employee_array = cursor.fetchall()
     #print(employees)
     #LABELLING
-    admin_label = Label(admin, text = "WELCOME ADMIN", font=("fixedsys", 32), bg = "orange")
-    
-    #ASSIGN TASK BUTTON
-    assignButton = Button(admin, text = "Assign New Task", command = assignTask)
-    assignButton.grid(row = 2, column = 0)
-    #CREATE NEW TASK WIDGET
+    # Configure columns to expand (important for centering)
+    admin.grid_columnconfigure(0, weight=1)
+    admin.grid_columnconfigure(1, weight=1)
+    admin.grid_columnconfigure(2, weight=1)
+    admin.grid_columnconfigure(3, weight=1)
+    admin.grid_columnconfigure(4, weight=1)
 
-    #POSITIONING
-    admin_label.grid(row = 0, column = 0)
+    # Centered label
+    admin_label = Label(admin, text="WELCOME ADMIN", font=("fixedsys", 32), bg="orange")
+    admin_label.grid(row=0, column=0, columnspan=5, pady=20, sticky="nsew")
+        
+    #ASSIGN TASK BUTTON
+    assignButton = Button(admin, text="Assign New Task", command=assignTask)
+    assignButton.grid(row=1, column=2, pady=10, sticky="n")
+   #CREATE NEW TASK WIDGET
     
     
     row_count = 0
@@ -189,10 +211,10 @@ def print_admin_view():
         print(employee[1])
         #print(employee_array[employee])
         employee_label = Label(admin, text=employee[1], font=("fixedsys", 20), bg = "orange")
-        employee_label.grid(row = 4 + row_count, column = 2)
+        employee_label.grid(row=4 + row_count, column=2, sticky="w")
 
         viewAssignButton = Button(admin, text = "View Existing Tasks", command= lambda employee=employee: viewTasks( employee))
-        viewAssignButton.grid(row = row_count+4, column = 4)
+        viewAssignButton.grid(row=4 + row_count, column=3, padx=10, sticky="w")
     
         # deleteAssignButton = Button(admin, text = "Delete Task", command = deleteTask)
         # deleteAssignButton.grid(row = row_count+4, column = 6)
