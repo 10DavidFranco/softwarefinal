@@ -47,13 +47,19 @@ def print_user_view(employee):
     tasks = task_keys.split(",")
     print(tasks)
 
-    # Fetch task details for each task ID
     for a_task in tasks:
         sql = "SELECT * FROM task WHERE task_id = ?"
-        my_id = int(a_task)
-        cursor.execute(sql, [my_id])
-        my_task = cursor.fetchone()
-        user_tasks.append(my_task)
+        a_task = a_task.strip()
+        if a_task != '':
+            try:
+                my_id = int(a_task)
+                cursor.execute(sql, [my_id])
+                my_task = cursor.fetchone()
+                if my_task:
+                    user_tasks.append(my_task)
+            except ValueError:
+                print(f"Invalid task ID: {a_task}")
+
 
     row_count = 0
     
