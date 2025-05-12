@@ -111,11 +111,11 @@ def editTask(task_id):
 def viewTasks(employee):
     view = Tk()
     view.title("TaskTrek - Admin View")  # Set window title
-    view.geometry("500x300")  # Set fixed window size
+    view.geometry("800x300")  # Set fixed window size
     # Centering the window
     screen_width = view.winfo_screenwidth()
     screen_height = view.winfo_screenheight()
-    window_width = 600
+    window_width = 800
     window_height = 300
     x = (screen_width // 2) - (window_width // 2)
     y = (screen_height // 2) - (window_height // 2)
@@ -158,7 +158,8 @@ def viewTasks(employee):
             print("Printing!!!")
             print(task[0])
             print(employee[0])
-            task_label = Label(view, text=task[1], font=("fixedsys", 20), bg = "orange")
+            task_text = f"{task[1]} | Status: {task[2]}"
+            task_label = Label(view, text=task_text, font=("fixedsys", 20), bg = "orange")
             delete = Button(view, text="Delete Task", command = lambda task=task: deleteTask(task[0], employee[0]))
             edit = Button(view, text="Edit Task", command = lambda task=task: editTask(task[0]))
             task_label.grid(row = 4 + row_count, column = 1)

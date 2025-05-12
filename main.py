@@ -41,19 +41,19 @@ root.config(bg="orange")  # Set the background color
 
 ############################################################ Methods ###################################
 # Function for User button click
-def on_click():
-    print("User Has been selected")
-    # Display user view
-    print_user_view()  
+# def on_click():
+#     print("User Has been selected")
+#     # Display user view
+#     print_user_view()  
     
-    # You can add more logic here if necessary (e.g., fetch data)
+#     # You can add more logic here if necessary (e.g., fetch data)
 
 
-# Function for Admin button click
-def on_clicky():
-    print("Admin Has been selected")
-    # Display admin view
-    print_admin_view() 
+# # Function for Admin button click
+# def on_clicky():
+#     print("Admin Has been selected")
+#     # Display admin view
+#     print_admin_view() 
     
 
 
@@ -101,9 +101,9 @@ def on_submit():
 
 ############################################################ Widgets (Buttons) ###################################
 #we pass it in on root because thats the parent container the window in this instance and thats where it relies in
-Userbutton = Button(root, text="View Tasks",font=("fixedsys", 10),width=20, height=2, bg="#D3D3D3", fg="black", command=on_click)
+# Userbutton = Button(root, text="View Tasks",font=("fixedsys", 10),width=20, height=2, bg="#D3D3D3", fg="black", command=on_click)
 
-Adminbutton = Button(root, text="Admin Login",font=("fixedsys", 10),width=20, height=2, bg="#D3D3D3", fg="black", command=on_clicky)
+# Adminbutton = Button(root, text="Admin Login",font=("fixedsys", 10),width=20, height=2, bg="#D3D3D3", fg="black", command=on_clicky)
 ########################################################################################################
 item = Entry(root)
 #item.pack()
