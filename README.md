@@ -15,19 +15,18 @@ Admin mode:
   -Update the tasks assigned to a given employee.
   -Delete tasks assigned to a given employee.
 
-Our app's functionality will come from SQL tables.
+Our app's functionality comes from SQL tables.
 
 Admins will make their changes permanent by communicating with
-an SQL database. Users that are admins will be denoted by a 1 in the admin
+an SQL database. Admins will be differentiated from regular users by a 1 in the admin
 column.
 
-Users, upon login, will have their tasks read from a table, and shown the
-tasks with their corresponoding userID. They can then interact with the 
+Users, upon login, will have their tasks read from our database, and shown the
+tasks with their corresponding userID. They can then interact with the 
 user interface to alter the status of an assignment that is reflected on
 both the users end and the admins.
 
 Additionally,
 
-Our application will have a login page, where users click a button to denote
-if they are admins or regular users. If time permits, this will be changed
-to proper SQL lookups for usernames and password hashes as well as their admin permissions in the admin column.
+Our application has a login page where users sign in with their unique employee ID.
+This ID is then used to render the appropriate view/tasks for the user.
