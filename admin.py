@@ -85,6 +85,15 @@ def editTask(task_id):
     edit.geometry("300x200")  # Set fixed window size
     edit.config(bg="orange")  # Set background color
 
+    # Centering the window
+    screen_width = edit.winfo_screenwidth()
+    screen_height = edit.winfo_screenheight()
+    window_width = 300
+    window_height = 200
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    edit.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
     edit_title = Label(edit, text="Editing Task...",font=("fixedsys", 32), bg = "orange")
     edit_label = Label(edit, text="Please enter a description for the task", bg="orange")
     new_description = Entry(edit, width=30)
@@ -204,6 +213,15 @@ def print_admin_view():
     assignButton = Button(admin, text="Assign New Task", command=assignTask)
     assignButton.grid(row=1, column=2, pady=10, sticky="n")
    #CREATE NEW TASK WIDGET
+    def refresh():
+        admin.destroy()
+        print_admin_view()
+
+    refresh_button = Button(admin, text="Refresh", command=refresh)
+    refresh_button.grid(row=2, column=2, pady=5, sticky="n")
+
+
+
     
     
     row_count = 0
